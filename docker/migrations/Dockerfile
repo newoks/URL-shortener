@@ -22,6 +22,4 @@ COPY . /usr/src/postgres_migrations/
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN chmod +x scripts/wait-for-server.sh
-
 RUN dos2unix scripts/*

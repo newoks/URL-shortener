@@ -7,13 +7,8 @@ from dependency_injector.wiring import Provide, inject
 from yoyo import get_backend, read_migrations
 
 from app.configuration import __containers__
-from app.internal.services import Services, UserService
-from app.internal.services.user_roles import UserRoleService
-from app.pkg import connectors, models
+from app.pkg import connectors
 from app.pkg.connectors import Connectors, postgresql
-from app.pkg.models.base import BaseAPIException
-from app.pkg.models.exceptions.repository import EmptyResult
-from app.pkg.settings import settings
 
 
 def _apply(backend, migrations):
