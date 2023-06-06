@@ -27,7 +27,9 @@ class ShortenerService:
 
     async def create_short_url(self, cmd: models.FullUrlModel) -> models.ShortUrlModel:
         """
-
+        Check if there is a short url for this full url.
+        If there is, then return it.
+        If not, generate a new one.
         """
         try:
             result = await self.__shortener_repository.read_short_url_code(cmd=cmd)
@@ -38,6 +40,10 @@ class ShortenerService:
             return await self.generate_short_url(cmd=cmd)
 
     async def generate_short_url(self, cmd: models.FullUrlModel) -> models.ShortUrlModel:
+        """
+        We get the id from the counters table and generate a short url code based on it.
+        Generation based on the ID from the table guarantees us the uniqueness of the short url code.
+        """
         counter = await self.__shortener_repository.update_counter_value()
         short_url_code = self.id_to_short_url_code(id=counter.value)
         result = await self.__shortener_repository.create(
@@ -66,7 +72,7 @@ class ShortenerService:
     async def delete_short_url(self, short_url: str):
         try:
             short_url_domain, short_url_code = short_url.split("/")
-            await self.__shortener_repository.delete_short_link(
+            await self.__shortener_repository.delete_short_url(
                 cmd=models.FullUrlCommand(
                     short_url_domain=short_url_domain,
                     short_url_code=short_url_code,
@@ -77,6 +83,9 @@ class ShortenerService:
 
     @staticmethod
     def id_to_short_url_code(id: int) -> str:
+        """
+        A function to convert a decimal number to a number with base 62.
+        """
         base62_symbols = string.ascii_uppercase + string.ascii_lowercase + string.digits
         short_url = ""
 

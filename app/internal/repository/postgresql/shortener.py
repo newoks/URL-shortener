@@ -43,7 +43,7 @@ class ShortenerRepository(Repository):
             return await cur.fetchone()
 
     @collect_response
-    async def delete_short_link(
+    async def delete_short_url(
         self,
         cmd: models.FullUrlCommand,
     ) -> models.UrlModel:
